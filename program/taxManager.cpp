@@ -39,29 +39,42 @@ void TaxManager::addEntry(const string& name, const string& description, Rank* r
 
 
 // Get all top-level ranks
-unordered_map<string, Rank*> TaxManager::getTopRanks() const {
+unordered_map<string, Rank*> TaxManager::getTopRanks() const
+{
     return Ranks;
 }
 
 // Get all top-level entries
-unordered_map<string, Entry*> TaxManager::getTopEntries() const {
+unordered_map<string, Entry*> TaxManager::getTopEntries() const
+{
     return Entries;
 }
 
 // Search for a rank by name
-Rank* TaxManager::searchRank(const string& name) {
+Rank* TaxManager::searchRank(const string& name)
+{
     auto pair = Ranks.find(name);
-    return (pair != Ranks.end()) ? pair->second : nullptr;
+    
+    if (pair != Ranks.end())
+        return pair->second;
+    else 
+        return nullptr;
 }
 
 // Search for an entry by name
-Entry* TaxManager::searchEntry(const string& name) {
+Entry* TaxManager::searchEntry(const string& name)
+{
     auto pair = Entries.find(name);
-    return (pair != Entries.end()) ? pair->second : nullptr;
+
+    if (pair != Entries.end()) 
+        return pair->second;
+    else
+        return nullptr;
 }
 
 // Display the whole taxonomy structure
-void TaxManager::displayTaxonomy() const {
+void TaxManager::displayTaxonomy() const
+{
     cout << "RANKS\n";
     for (const auto& pair : Ranks) { // This iterates over the unordered_map
         const Rank* rank = pair.second; // pair.second is the Rank pointer

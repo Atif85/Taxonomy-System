@@ -23,9 +23,6 @@ public:
     // Display taxonomy
     void displayTaxonomy();
 
-    // Serch Recursively
-    Entry* searchEntryRecursively(vector<Entry*> entries, const string& name);
-
     // Sreach rank or entry
     void searchMenu();
 

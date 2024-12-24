@@ -22,9 +22,7 @@ void Menu::showMenu() {
         cout << "Enter your choice: ";
 
         cin >> choice;
-
-        // Clear input buffer if needed
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
         
         switch (choice) {
             case 1:
@@ -63,8 +61,16 @@ void Menu::addRankMenu() {
     cout << "Enter the rank description: ";
     getline(cin, description);
 
-    taxManager.addRank(name, description); // No parent specified for simplicity
-    cout << "Rank added successfully.\n";
+    if (taxManager.searchRank(name) == nullptr)
+    {
+        taxManager.addRank(name, description); // No parent specified for simplicity
+        cout << "Rank added successfully.\n";
+    }
+    else
+    {
+        cout << "Rank already exists.\n";
+    }
+    
 }
 
 // Add an entry
@@ -82,51 +88,63 @@ void Menu::addEntryMenu() {
     cout << "Enter the parent entry name (or press Enter if this is a top-level entry): ";
     getline(cin, parentEntryName);
 
-    // Find the rank by name
-    Rank* rank = taxManager.searchRank(rankName);
 
-    if (!rank) {
-        cout << "Rank not found.\n";
-        // Prompt user to add the rank
-        cout << "Would you like to add the rank? (y/n): ";
-        string response;
-        getline(cin, response);
-        if (response == "y" || response == "Y") {
-            addRankMenu();  // Call the add rank menu
-            rank = taxManager.searchRank(rankName);
-        } else {
-            return;
-        }
-    }
+    if (taxManager.searchEntry(name) == nullptr)
+    {
+            // Find the rank by name
+        Rank* rank = taxManager.searchRank(rankName);
 
-    // Find the parent entry if specified
-    Entry* parentEntry = nullptr;
-    if (!parentEntryName.empty()) {
-        // Search for the parent entry in the top-level entries
-        parentEntry = taxManager.searchEntry(parentEntryName);
-
-        if (!parentEntry) {
-            cout << "Parent entry not found.\nWould you like to add this parent entry? (y/n): ";
+        if (!rank)
+        {
+            cout << "Rank not found.\n";
+            // Prompt user to add the rank
+            cout << "Would you like to add the rank? (y/n): ";
             string response;
             getline(cin, response);
-            if (response == "y" || response == "Y") {
-                addEntryMenu();  // Recursively add the parent entry
-                parentEntry = taxManager.searchEntry(parentEntryName);
-            } else {
+            if (response == "y" || response == "Y")
+            {
+                addRankMenu();  // Call the add rank menu
+                rank = taxManager.searchRank(rankName);
+            } else
+            {
                 return;
             }
         }
-    }
 
-    // Add the new entry
-    taxManager.addEntry(name, description, rank, parentEntry); // Pass the found parentEntry (or nullptr if it's top-level)
-    cout << "Entry added successfully.\n";
+        // Find the parent entry if specified
+        Entry* parentEntry = nullptr;
+        if (!parentEntryName.empty()) {
+            // Search for the parent entry in the top-level entries
+            parentEntry = taxManager.searchEntry(parentEntryName);
+
+            if (!parentEntry) {
+                cout << "Parent entry not found.\nWould you like to add this parent entry? (y/n): ";
+                string response;
+                getline(cin, response);
+                if (response == "y" || response == "Y") {
+                    addEntryMenu();  // Recursively add the parent entry
+                    parentEntry = taxManager.searchEntry(parentEntryName);
+                } else {
+                    return;
+                }
+            }
+        }
+
+        // Add the new entry
+        taxManager.addEntry(name, description, rank, parentEntry); // Pass the found parentEntry (or nullptr if it's top-level)
+        cout << "Entry added successfully.\n";
+    }
+    else
+    {
+        cout << "Rank already exists.\n";
+    }
 }
 
 // The search menu to search for a rank or an entry
-void Menu::searchMenu() {
+void Menu::searchMenu()
+{
     string name;
-    cout << "Enter the name of the rank or entry you want to search for: ";
+    cout << "Enter name of rank or entry: ";
     getline(cin, name);
 
     // Search for the rank first
