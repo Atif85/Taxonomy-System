@@ -5,7 +5,9 @@
 #include "rank.h"
 #include "entry.h"
 
-class TaxManager {
+class TaxManager
+{
+    
 private:
     unordered_map<string, Rank*> Ranks;    // List of top-level ranks (e.g., Domain, Kingdom)
     unordered_map<string, Entry*> Entries; // List of top-level entries (e.g., Eukaryota, Animalia)
@@ -14,7 +16,7 @@ public:
     // Constructor
     TaxManager();
 
-    // Destructor (to clean up allocated memory)
+    // Destructor 
     ~TaxManager();
 
     // Add a new rank to the system

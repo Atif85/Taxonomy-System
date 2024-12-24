@@ -22,7 +22,7 @@ void Menu::showMenu() {
         cout << "Enter your choice: ";
 
         cin >> choice;
-        cin.ignore();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         
         switch (choice) {
             case 1:
@@ -198,7 +198,7 @@ void Menu::saveTaxonomyToFile() {
     cout << "Enter filename to save data: ";
     getline(cin, filename);
 
-    taxManager.saveToFile(filename);
+    taxManager.saveToFile(filename + ".csv");
     cout << "Data saved successfully.\n";
 }
 

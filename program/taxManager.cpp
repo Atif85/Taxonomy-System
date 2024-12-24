@@ -91,38 +91,55 @@ void TaxManager::displayTaxonomy() const
 
 
 // Save taxonomy data to a file (for simplicity, just saving rank and entry names)
-void TaxManager::saveToFile(const string& filename) const {
+void TaxManager::saveToFile(const string& filename) const
+{
     ofstream outFile(filename);
-    if (outFile.is_open()) {
-        outFile << "Ranks:\n";
-        for (const auto& pair : Ranks) {
-            outFile << pair.first << "\n";
+    if (outFile.is_open())
+    {
+        outFile << "__RANKS__\nNAME,DESCRIPTION,PARENT\n";
+
+        for (const auto& pair : Ranks)
+        {
+            outFile << pair.second->getName() << ",";
+            outFile << pair.second->getDescription() << ",";
+            outFile << "NULL" <<"\n";
         }
 
-        outFile << "\nEntries:\n";
-        for (const auto& pair : Entries) {
-            outFile << pair.first << "\n";
+        outFile << "\n__ENTRIES__\nNAME,DESCRIPTION,RANK,PARENT\n";
+        for (const auto& pair : Entries)
+        {
+            outFile << pair.second->getName() << ",";
+            outFile << pair.second->getDescription() << ",";
+            outFile << (pair.second->getRank())->getName() << ",";
+            outFile << "NULL" <<"\n";
         }
 
         outFile.close();
         cout << "Data successfully saved to " << filename << ".\n";
-    } else {
+    } else
+    {
         cout << "Error opening file to save data!" << endl;
     }
 }
 
 // Load taxonomy data from a file
-void TaxManager::loadFromFile(const string& filename) {
+void TaxManager::loadFromFile(const string& filename)
+{
     ifstream inFile(filename);
-    if (inFile.is_open()) {
+    if (inFile.is_open())
+    {
         string line;
-        while (getline(inFile, line)) {
-            if (line == "Ranks:") {
+        while (getline(inFile, line))
+        {
+            if (line == "Ranks:")
+            {
                 // Parse ranks
-                while (getline(inFile, line) && !line.empty()) {
+                while (getline(inFile, line) && !line.empty())
+                {
                     addRank(line, "");  // Add ranks with placeholder descriptions
                 }
-            } else if (line == "Entries:") {
+            } else if (line == "Entries:")
+            {
                 // Parse entries
                 while (getline(inFile, line) && !line.empty()) {
                     // Assuming you already have a rank to assign the entry to
