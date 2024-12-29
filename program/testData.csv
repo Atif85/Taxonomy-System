@@ -1,0 +1,29 @@
+__RANKS__
+NAME,DESCRIPTION,PARENT
+Domain,The highest taxonomic rank,NULL
+Kingdom,Second highest taxonomic rank,Domain
+Order,Fifth highest taxonomic rank,Class
+Phylum,Third highest taxonomic rank,Kingdom
+Class,Fourth highest taxonomic rank,Phylum
+Family,Sixth highest taxonomic rank,Order
+Genus,Seventh highest taxonomic rank,Family
+Species,Eighth highest taxonomic rank,Genus
+
+__ENTRIES__
+NAME,DESCRIPTION,RANK,PARENT
+Chordata,Phylum of animals with a notochord,Phylum,Animalia
+Eukaryote,Organisms with complex cells,Domain,NULL
+Animalia,Kingdom of animals,Kingdom,Eukaryote
+Mammalia,Class of mammals,Class,Chordata
+Homo sapiens,Species of modern humans,Species,Homo
+Primates,Order of primates,Order,Mammalia
+Hominidae,Family of great apes,Family,Primates
+Homo,Genus of humans,Genus,Hominidae
+
+
+
+
+
+
+
+
